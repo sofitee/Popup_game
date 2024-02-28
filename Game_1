@@ -1,0 +1,56 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+const int BOARD_SIZE = 10; // Size of the game board
+const int MAX_TARGETS = 5; // Maximum number of targets
+
+// Function to generate a random number between min and max
+int getRandomNumber(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
+
+// Function to display the game board
+void displayBoard(int target) {
+    cout << "Shoot at the target! (Enter position between 1 and " << BOARD_SIZE << "):" << endl;
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        if (i == target)
+            cout << "X ";
+        else
+            cout << "_ ";
+    }
+    cout << endl;
+}
+
+int main() {
+    srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
+    bool continueGame = true;
+
+    while (continueGame) {
+        int targetPosition = getRandomNumber(0, BOARD_SIZE - 1); // Generate a random position for the target
+        displayBoard(targetPosition);
+
+        int playerGuess;
+        cout << "Enter your guess: ";
+        cin >> playerGuess;
+
+        if (playerGuess == targetPosition + 1) {
+            cout << "Hit! You win!" << endl;
+        } else {
+            cout << "Miss! The target was at position " << targetPosition + 1 << endl;
+        }
+
+        char playAgain;
+        cout << "Do you want to play again? (y/n): ";
+        cin >> playAgain;
+
+        if (playAgain != 'y' && playAgain != 'Y') {
+            continueGame = false;
+            cout << "Thanks for playing!" << endl;
+        }
+    }
+
+    return 0;
+}
